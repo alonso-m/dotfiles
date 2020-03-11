@@ -1,4 +1,3 @@
-# DEFAULT_USER="malonso"
 ZSH_TMUX_AUTOSTART=true
 
 export ZSH=~/.oh-my-zsh
@@ -14,6 +13,7 @@ plugins=(
   history-substring-search
   zsh-autosuggestions
   zsh-syntax-highlighting
+  tmux
 )
 
 source $ZSH/oh-my-zsh.sh
