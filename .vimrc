@@ -1,23 +1,6 @@
-set nocompatible            
-filetype off                  
-
-" set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-
-Plugin 'vim-airline/vim-airline'
-Plugin 'vim-airline/vim-airline-themes'
-" Plugin 'tpope/vim-fugitive'
- Plugin 'christoomey/vim-tmux-navigator'
-" Plugin 'severin-lemaignan/vim-minimap'
-" Plugin 'benmills/vimux'
-Plugin 'scrooloose/nerdtree'
-" Plugin 'andreshazard/vim-logreview'
-
-call vundle#end()            
-
 " Set working directory to current file directory
 autocmd BufEnter * lcd %:p:h
+
 syntax enable
 
 " Attempt to determine the type of a file based on its name and possibly its
@@ -25,9 +8,20 @@ syntax enable
 " and for plugins that are filetype specific.
 filetype indent plugin on
 
-" Enable syntax highlighting
+"Get the 2-space YAML as the default when hit carriage return after the colon
+autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
+
+syntax off
+
+" Enable syntax highlighting and settings for smoother scroll
 " syntax on
-set synmaxcol=2048
+" set ttyfast
+" set lazyredraw
+" set nocursorcolumn
+" set nocursorline
+" set norelativenumber
+" set synmaxcol=200
+" syntax sync minlines=256
 
 " the same indent as the line you're currently on. Useful for READMEs, etc.
 set autoindent
@@ -40,6 +34,7 @@ set backspace=indent,eol,start
 set confirm
 
 set encoding=utf-8
+
 set expandtab
 
 " Searches do not wrap over file
@@ -47,11 +42,11 @@ set expandtab
 
 " Highlight searches (use <C-L> to temporarily turn off highlighting; see the
 " mapping of <C-L> below)
-" set hlsearch
+set hlsearch
 
 " This stops Vim from redrawing the screen during complex operations and results
 " in much smoother looking plugins.
-set lazyredraw
+" set lazyredraw
 
 " Always display the status line, even if only one window is displayed
 set laststatus=2
@@ -77,15 +72,11 @@ set ruler
 " Quickly time out on keycodes, but never time out on mappings
 set notimeout ttimeout ttimeoutlen=200
 
-" Add git branch to statusline
-set statusline=%F\ %m\ %{fugitive#statusline()}\ %y%=%l,%c\ %P
-
-
 " INDENTATION OPTIONS
 " Indentation settings for using 2 spaces instead of tabs.
 " Do not change 'tabstop' from its default value of 8 with this setup.
-set softtabstop=4 " insert mode tab and backspace use 2 spaces
-set shiftwidth=4 " normal mode indentation commands use 2 spaces
+set softtabstop=2 " insert mode tab and backspace use 2 spaces
+set shiftwidth=2 " normal mode indentation commands use 2 spaces
 
 set shell=zsh
 
@@ -105,27 +96,14 @@ set switchbuf=useopen
 " And reset the terminal code for the visual bell.  If visualbell is set, and
 " this line is also included, vim will neither flash nor beep.  If visualbell
 " is unset, this does nothing.
-set t_vb=
+" set t_vb=
 
 " Better command-line completion
 set wildmenu
 set wildmode=longest,list,full
 
 " automatically rebalance windows on vim resize
-autocmd VimResized * :wincmd =
-
-if exists('$TMUX')  " Support resizing in tmux
-  set ttymouse=xterm2
-endif
-
-" Fix Cursor in TMUX
-if exists('$TMUX')
-  let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
-  let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
-else
-  let &t_SI = "\<Esc>]50;CursorShape=1\x7"
-  let &t_EI = "\<Esc>]50;CursorShape=0\x7"
-endif
+" autocmd VimResized * :wincmd =
 
 " vv to generate new vertical split
 nnoremap <silent> vv <C-w>v
@@ -147,51 +125,11 @@ set autoread
 " high light current line in insert mode
 " Enable CursorLine
 set cursorline
-autocmd InsertEnter * highlight  CursorLine ctermbg=236 ctermfg=None
-autocmd InsertLeave * highlight CursorLine ctermbg=235 ctermfg=None
-
-"nnoremap <C-Tab> :tabnext<CR>
-
-" NERDTreeToggle
-map <C-n> :NERDTreeToggle<CR>
-let g:NERDTreeWinSize=50
-
-" used patched fonts for airline arrows/triangles
-let g:airline_powerline_fonts=1
-
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#show_buffers = 1
-let g:airline#extensions#tabline#show_close_button = 0
-let g:airline_theme='luna'
-
-" Prompt for a command to run
-"map <Leader>vp :VimuxPromptCommand<CR>
-
-" Run last command executed by VimuxRunCommand
-"map <Leader>vl :VimuxRunLastCommand<CR>
-
-" Inspect runner pane
-"map <Leader>vi :VimuxInspectRunner<CR>
-
-" Close vim tmux runner opened by VimuxRunCommand
-"map <Leader>vq :VimuxCloseRunner<CR>
-
-" Open vimux pane
-"map <Leader>vo :VimuxOpenPane<CR>
-
-" Interrupt any command running in the runner pane
-"map <Leader>vx :VimuxInterruptRunner<CR>
-"
-" Function to make tmux zoom its runner pane.
-"function! VimuxZoomRunner()
-"  call VimuxInspectRunner()
-"  call system("tmux resize-pane -Z")
-"endfunction
-
-" Zoom the runner pane (use <bind-key> z to restore runner pane)
-"map <Leader>vz :call VimuxZoomRunner()<CR>
+" autocmd InsertEnter * highlight  CursorLine ctermbg=236 ctermfg=None
+" autocmd InsertLeave * highlight CursorLine ctermbg=235 ctermfg=None
 
 set clipboard=unnamedplus
+
 set background=dark
 
 nnoremap gb :buffers<CR>:buffer<Space>
