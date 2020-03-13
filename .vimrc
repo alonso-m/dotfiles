@@ -20,7 +20,7 @@ syntax off
 " set nocursorcolumn
 " set nocursorline
 " set norelativenumber
-" set synmaxcol=200
+" set synmaxcol=100
 " syntax sync minlines=256
 
 " the same indent as the line you're currently on. Useful for READMEs, etc.
