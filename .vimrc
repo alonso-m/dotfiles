@@ -1,138 +1,355 @@
-" Set working directory to current file directory
-autocmd BufEnter * lcd %:p:h
+"" set the runtime path to include Vundle and initialize
+"set rtp+=~/.vim/bundle/Vundle.vim
+"call vundle#begin()
+"
+"Plugin 'vim-airline/vim-airline'
+"Plugin 'vim-airline/vim-airline-themes'
+"Plugin 'tpope/vim-fugitive'
+"Plugin 'christoomey/vim-tmux-navigator'
+"" Plugin 'severin-lemaignan/vim-minimap'
+"" Plugin 'benmills/vimux'
+"Plugin 'scrooloose/nerdtree'
+"" Plugin 'andreshazard/vim-logreview'
+"
+"call vundle#end()            
 
-syntax enable
+set encoding=utf-8  " set vim encoding to UTF-8
+set nocompatible    " the future is now, use vim defaults instead of vi ones
+set nomodeline      " disable mode lines (security measure)
+set history=1000    " boost commands and search patterns history
+set undolevels=1000 " boost undo levels
+set background=dark " for dark backgrounds
 
-" Attempt to determine the type of a file based on its name and possibly its
-" contents. Use this to allow intelligent auto-indenting for each filetype,
-" and for plugins that are filetype specific.
-filetype indent plugin on
+set backup      " enable backup files
+set writebackup " enable backup files
+set swapfile    " enable swap files (useful when loading huge files)
 
-"Get the 2-space YAML as the default when hit carriage return after the colon
-autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
+let s:vimdir=$HOME . "/.vim"
+let &backupdir=s:vimdir . "/backup"  " backups location
+let &directory=s:vimdir . "/tmp"     " swap location
 
-syntax off
+if exists("*mkdir")
+  if !isdirectory(s:vimdir)
+    call mkdir(s:vimdir, "p")
+  endif
+  if !isdirectory(&backupdir)
+    call mkdir(&backupdir, "p")
+  endif
+  if !isdirectory(&directory)
+    call mkdir(&directory, "p")
+  endif
+endif
 
-" Enable syntax highlighting and settings for smoother scroll
-" syntax on
-" set ttyfast
-" set lazyredraw
-" set nocursorcolumn
-" set nocursorline
-" set norelativenumber
-" set synmaxcol=100
-" syntax sync minlines=256
+"set mouse=a   " enable use of the mouse for all modes - helpful for resizing buffers
+set number    " enable numbered lines
+set shell=zsh " default shell
 
-" the same indent as the line you're currently on. Useful for READMEs, etc.
-set autoindent
+"set statusline=%F\ %m\ %{fugitive#statusline()}\ %y%=%l,%c\ %P  " if opening a file from :ls, :buffers, :files, etc. i
+                                                                " jump to open version of the file, if one exists
+set switchbuf=useopen " use open buffers when opening files via 
 
-" Allow backspacing over autoindent, line breaks and start of insert action
-set backspace=indent,eol,start
+filetype on         " /!\ doesn't play well with compatible mode
+filetype plugin on  " trigger file type specific plugins
+filetype indent on  " indent based on file type syntax
 
-" Instead of failing a command because of unsaved changes, instead raise a
-" dialogue asking if you wish to save changed files.
-set confirm
+set wildmenu                    " enable tab completion menu
+set wildmode=longest:full,full  " complete till longest common string, then full
 
-set encoding=utf-8
 
-set expandtab
+set title       " change the terminal title
+set lazyredraw  " do not redraw when executing macros
+set report=0    " always report changes
+set cursorline  " highlight current line
 
-" Searches do not wrap over file
-" :set nowrapscan
+set nolist                            " hide unprintable characters
+if has("multi_byte")                  " if multi_byte is available,
+  set listchars=eol:¬,tab:▸\ ,trail:⌴ " use pretty Unicode unprintable symbols
+else                                  " otherwise,
+  set listchars=eol:$,tab:>\ ,trail:. " use ASCII characters
+endif
 
-" Highlight searches (use <C-L> to temporarily turn off highlighting; see the
-" mapping of <C-L> below)
-set hlsearch
+set noerrorbells      " shut up
+set visualbell t_vb=  " use visual bell instead of error bell
+set mousehide         " hide mouse pointer when typing
 
-" This stops Vim from redrawing the screen during complex operations and results
-" in much smoother looking plugins.
-" set lazyredraw
+if exists("+showtabline")
+  set showtabline=1 " only if there are at least two tabs (default)
+endif
 
-" Always display the status line, even if only one window is displayed
-set laststatus=2
+syntax on " turno on syntax highlighting
 
-" display unprintable characters
-"set list
+set nobomb            " don't clutter files with Unicode BOMs
+set hidden            " enable switching between buffers without saving
+set switchbuf=usetab  " switch to existing tab then window when switching buffer
+set autoread          " auto read files changed only from the outside of ViM
+if has("persistent_undo") && (&undofile)
+  set autowriteall    " auto write changes if persistent undo is enabled
+endif
+set fsync             " sync after write
+set confirm           " ask whether to save changed files
 
-" Enable use of the mouse for all modes - helpful for resizing buffers
-set mouse=a
+if has("autocmd")
+  augroup trailing_spaces
+    autocmd!
+    "autocmd BufWritePre * :%s/\s\+$//e " remove trailing spaces before saving
+  augroup END
+  augroup restore_cursor
+    " restore cursor position to last position upon file reopen
+    autocmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | execute "normal! g`\"" | endif
+  augroup END
+endif
 
-" Set 'nocompatible' to ward off unexpected things that your distro might
-" have made, as well as sanely reset options when re-sourcing .vimrc
-set nocompatible
+" cd to the directory of the current buffer
+nnoremap <silent> <leader>cd :cd %:p:h<CR>
 
-" show line numbers by default
-" set relativenumber
-set number
+" switch between last two files
+nnoremap <leader><Tab> <c-^>
 
-" Display the cursor position on the last line of the screen or in the status
-" line of a window
-set ruler
+" <leader>w writes the whole buffer to the current file
+nnoremap <silent> <leader>w :w!<CR>
+inoremap <silent> <leader>w <ESC>:w!<CR>
 
-" Quickly time out on keycodes, but never time out on mappings
-set notimeout ttimeout ttimeoutlen=200
+" <leader>W writes all buffers
+nnoremap <silent> <leader>W :wa!<CR>
+inoremap <silent> <leader>W <ESC>:wa!<CR>
 
-" INDENTATION OPTIONS
-" Indentation settings for using 2 spaces instead of tabs.
-" Do not change 'tabstop' from its default value of 8 with this setup.
-set softtabstop=2 " insert mode tab and backspace use 2 spaces
-set shiftwidth=2 " normal mode indentation commands use 2 spaces
 
-set shell=zsh
+" -- navigation ----------------------------------------------------------------
 
-" Show partial commands in the last line of the screen
-set showcmd
+" scroll slightly faster
+nnoremap <C-e> 2<C-e>
+nnoremap <C-y> 2<C-y>
+map <C-Up> <C-y>
+map <C-Down> <C-e>
 
-" case-sensitive search if any caps
-" set smartcase
+set startofline " move to first non-blank of the line when using PageUp/PageDown
 
-" spell check comments
-" set spell
+" scroll by visual lines, useful when wrapping is enabled
+nnoremap j gj
+nnoremap <Down> gj
+nnoremap k gk
+nnoremap <Up> gk
 
-" if opening a file from :ls, :buffers, :files, etc. jump to open version
-" of the file, if one exists
-set switchbuf=useopen
+set scrolljump=1    " minimal number of lines to scroll vertically
+set scrolloff=4     " number of lines to keep above and below the cursor
+                    "   typing zz sets current line at the center of window
+set sidescroll=1    " minimal number of columns to scroll horizontally
+set sidescrolloff=4 " minimal number of columns to keep around the cursor
 
-" And reset the terminal code for the visual bell.  If visualbell is set, and
-" this line is also included, vim will neither flash nor beep.  If visualbell
-" is unset, this does nothing.
-" set t_vb=
+if has("vertsplit")
+  " split current window vertically
+  nnoremap <leader>_ <C-w>v<C-w>l
+  set splitright  " when splitting vertically, split to the right
+endif
+if has("windows")
+  " split current window horizontally
+  nnoremap <leader>- <C-w>s
+  set splitbelow  " when splitting horizontally, split below
+endif
 
-" Better command-line completion
-set wildmenu
-set wildmode=longest,list,full
+" window navigation
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
 
-" automatically rebalance windows on vim resize
-" autocmd VimResized * :wincmd =
+" move cursor wihout leaving insert mode
+try
+  redir => s:backspace
+  silent! execute 'set ' 't_kb?'
+  redir END
+  if s:backspace !~ '\^H'
+    inoremap <C-h> <C-o>h
+    inoremap <C-j> <C-o>j
+    inoremap <C-k> <C-o>k
+    inoremap <C-l> <C-o>l
+  endif
+finally
+  redir END
+endtry
 
-" vv to generate new vertical split
-nnoremap <silent> vv <C-w>v
+" switch between windows by hitting <Tab> twice
+nnoremap <silent> <Tab><Tab> <C-w>w
 
-" no more pesky escape (for insert and visual mode)
-imap kj <Esc>
-imap kJ <Esc>
-imap Kj <Esc>
-imap KJ <Esc>
+" window resizing
+map <A-Down> <C-w>-
+map <A-Left> <C-w><
+map <A-Up> <C-w>+
+map <A-Right> <C-w>>
 
-" reload files when they change on disk (e.g., git checkout)
-set autoread
+" <leader>q quits the current window
+nnoremap <silent> <leader>q :q<CR>
+inoremap <silent> <leader>q <ESC>:q<CR>
 
-" green/red diffs
-" highlight diffAdded guifg=#00bf00
-" highlight diffRemoved guifg=#bf0000
+" create a new tab
+nnoremap <silent> <leader>t :tabnew<CR>
 
-" Current line customization
-" high light current line in insert mode
-" Enable CursorLine
-set cursorline
-" autocmd InsertEnter * highlight  CursorLine ctermbg=236 ctermfg=None
-" autocmd InsertLeave * highlight CursorLine ctermbg=235 ctermfg=None
+" next/previous buffer navigation
+nnoremap <silent> <C-b> :bnext<CR>
+nnoremap <silent> <S-b> :bprev<CR>
 
+set whichwrap=b,s,<,> " allow cursor left/right key to wrap to the
+                      " previous/next line
+                      " omit [,] as we use virtual edit in insert mode
+
+" disable arrow keys
+nnoremap <Left> :echo "arrow keys disabled, use h"<CR>
+nnoremap <Right> :echo "arrow keys disabled, use l"<CR>
+nnoremap <Up> :echo "arrow keys disabled, use k"<CR>
+nnoremap <Down> :echo "arrow keys disabled, use j"<CR>
+
+" move to the position where the last change was made
+noremap gI `.
+
+" -- editing -------------------------------------------------------------------
+
+set showmode      " always show the current editing mode
+set nowrap        " don't wrap lines
+set linebreak     " yet if enabled break at word boundaries
+
+if has("multi_byte")  " if multi_byte is available,
+  set showbreak=↪     " use pretty Unicode marker
+else                  " otherwise,
+  set showbreak=>     " use ASCII character
+endif
+
+set nojoinspaces  " insert only one space after '.', '?', '!' when joining lines
+set showmatch     " briefly jumps the cursor to the matching brace on insert
+set matchtime=4   " blink matching braces for 0.4s
+
+set virtualedit=insert    " allow the cursor to go everywhere (insert)
+set virtualedit+=onemore  " allow the cursor to go just past the end of line
+set virtualedit+=block    " allow the cursor to go everywhere (visual block)
+
+set backspace=indent,eol,start " allow backspacing over everything (insert)
+
+set expandtab     " insert spaces instead of tab, CTRL-V+Tab inserts a real tab
+set tabstop=2     " 1 tab == 2 spaces
+set softtabstop=2 " number of columns used when hitting TAB in insert mode
+set smarttab      " insert tabs on the start of a line according to shiftwidth
+
+set autoindent    " enable autoindenting
+set copyindent    " copy the previous indentation on autoindenting
+set shiftwidth=2  " indent with 2 spaces
+set shiftround    " use multiple of shiftwidth when indenting with '<' and '>'
+
+" use <leader>d to delete a line without adding it to the yanked stack
+nnoremap <silent> <leader>d "_d
+vnoremap <silent> <leader>d "_d
+
+" use <leader>c to replace text without yanking replaced text
+nnoremap <silent> <leader>c "_c
+vnoremap <silent> <leader>c "_c
+
+" yank/paste to/from the OS clipboard
+noremap <silent> <leader>y "+y
+noremap <silent> <leader>Y "+Y
+noremap <silent> <leader>p "+p
+noremap <silent> <leader>P "+P
+
+" paste without yanking replaced text in visual mode
+vnoremap <silent> p "_dP
+vnoremap <silent> P "_dp
+
+" always share the OS clipboard
 set clipboard=unnamedplus
 
-set background=dark
+" reselect last selection after indent / un-indent in visual and select modes
+vnoremap < <gv
+vnoremap > >gv
+vmap <Tab> >
+vmap <S-Tab> <
 
-nnoremap gb :buffers<CR>:buffer<Space>
-map gn :bn<cr>
-map gp :bp<cr>
-map gd :bd<cr>  
+" exit from insert mode without cursor movement
+inoremap jk <ESC>`^
+
+" remap U to <C-r> for easier redo
+nnoremap U <C-r>
+
+" preserve cursor position when joining lines
+nnoremap J :call Preserve("normal! J")<CR>
+
+" split line and preserve cursor position
+nnoremap S :call Preserve("normal! i\r")<CR>
+
+" select what was just pasted
+nnoremap <leader>v V`]
+
+" <C-Space> triggers completion in insert mode
+inoremap <C-Space> <C-P>
+if !has("gui_running")
+  inoremap <C-@> <C-P>
+endif
+
+set completeopt=longest,menuone,preview " better completion
+
+" move current line down
+noremap <silent>- :m+<CR>
+" move current line up
+noremap <silent>_ :m-2<CR>
+" move visual selection down
+vnoremap <silent>- :m '>+1<CR>gv=gv
+" move visual selection up
+vnoremap <silent>_ :m '<-2<CR>gv=gv
+
+" make dot work in visual mode
+vnoremap . :normal .<CR>
+
+" -- searching -----------------------------------------------------------------
+
+set wrapscan    " wrap around when searching
+set incsearch   " show match results while typing search pattern
+if (&t_Co > 2 || has("gui_running"))
+  set hlsearch  " highlight search terms
+endif
+
+" temporarily disable highlighting when entering insert mode
+if has("autocmd")
+  augroup hlsearch
+    autocmd!
+    autocmd InsertEnter * let g:restorehlsearch=&hlsearch | :set nohlsearch
+    autocmd InsertLeave * let &hlsearch=g:restorehlsearch
+  augroup END
+endif
+set ignorecase  " case insensitive search
+set smartcase   " case insensitive only if search pattern is all lowercase
+                "   (smartcase requires ignorecase)
+set gdefault    " search/replace globally (on a line) by default
+
+" temporarily disable search highlighting
+nnoremap <silent> <leader><Space> :nohlsearch<CR>:match none<CR>:2match none<CR>:3match none<CR>
+
+" highlight all instances of the current word where the cursor is positioned
+nnoremap <silent> <leader>hs :setl hls<CR>:let @/="\\<<C-r><C-w>\\>"<CR>
+
+" replace word under cursor
+nnoremap <leader>; :%s/\<<C-r><C-w>\>//<Left>
+
+" center screen on next/previous match, blink current match
+noremap <silent> n nzzzv:call BlinkMatch(0.2)<CR>
+noremap <silent> N Nzzzv:call BlinkMatch(0.2)<CR>
+
+" -- spell checking ------------------------------------------------------------
+
+set spelllang=en  " English only
+set nospell       " disabled by default
+
+if has("autocmd")
+  augroup spell
+    autocmd!
+    "autocmd filetype vim setlocal spell " enabled when editing .vimrc
+  augroup END
+endif
+
+
+"" NERDTreeToggle
+"map <C-n> :NERDTreeToggle<CR>
+"let g:NERDTreeWinSize=50
+"
+"" used patched fonts for airline arrows/triangles
+"let g:airline_powerline_fonts=1
+"
+"let g:airline#extensions#tabline#enabled = 1
+"let g:airline#extensions#tabline#show_buffers = 1
+"let g:airline#extensions#tabline#show_close_button = 0
+"let g:airline_theme='luna'
