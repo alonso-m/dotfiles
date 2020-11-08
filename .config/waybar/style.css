@@ -53,6 +53,7 @@
 #temperature,
 #tray,
 #window,
+#custom-pacman,
 #custom-kernel-modules-match,
 #custom-systemd-failed-units,
 #custom-wfrecorder {
@@ -66,6 +67,9 @@
 #temperature.critical {
   animation: 2s linear infinite alternate-reverse blink-background;
   background: red;
+}
+
+#custom-pacman.need-update {
 }
 
 #custom-systemd-failed-units.warning {

@@ -10,9 +10,9 @@
 set $mod Mod4
 
 #set $lock ~/.local/bin/scripts/lock.sh
-set $wallpaper /home/malonso/Pictures/background.jpg
+set $wallpaper /home/malonso/Pictures/background.png
 set $wallpaper-lock /home/malonso/Pictures/lock.jpg
-set $lock swaylock -i $wallpaper
+set $lock swaylock -i $wallpaper-lock
 
 # Home row direction keys, like vim
 set $left h

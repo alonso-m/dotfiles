@@ -6,6 +6,7 @@
     "modules-right": [
       "custom/systemd-failed-units",
       "custom/kernel-modules-match",
+      "custom/pacman",
       "cpu", "memory", "temperature", "disk",
       "backlight", "battery", 
       "pulseaudio",
@@ -99,6 +100,14 @@
       "all-outputs": true,
       "icon-size": 16,
       "on-click": "activate"
+    },
+    "custom/pacman": {
+      "exec": "$HOME/.config/waybar/check-pacman-updates.sh",
+      "format": "{percentage} {icon}",
+      "format-icons": "",
+      "interval": 3600,
+      "on-click": "alacritty sudo pacman -Syu",
+      "return-type": "json"
     },
     "custom/kernel-modules-match": {
       "exec": "$HOME/.config/waybar/check-kernel-modules-match.sh --json",
