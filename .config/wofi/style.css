@@ -1,0 +1,10 @@
+#window {
+  font-family: "Segoe UI", "Cascadia Code", monospace;
+  font-size: large;
+}
+
+#input,
+#input:focus {
+  border: none;
+  border-radius: 0;
+}

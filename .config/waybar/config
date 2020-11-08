@@ -1,0 +1,118 @@
+{
+    "layer": "top", // Waybar at top layer
+    // Choose the order of the modules
+    "modules-left": ["idle_inhibitor", "sway/workspaces", "sway/mode", "sway/window"],
+    "modules-center": ["clock"],
+    "modules-right": [
+      "custom/systemd-failed-units",
+      "custom/kernel-modules-match",
+      "cpu", "memory", "temperature", "disk",
+      "backlight", "battery", 
+      "pulseaudio",
+      "tray"
+    ],
+    // Modules configuration
+    "sway/mode": {
+        "format": "<span style=\"italic\">{}</span>"
+    },
+    "idle_inhibitor": {
+        "format": "{icon}",
+        "format-icons": {
+            "activated": "",
+            "deactivated": ""
+        }
+    },
+    "tray": {
+        "icon-size": 16,
+        "spacing": 10
+    },
+    "clock": {
+        // "timezone": "America/New_York",
+        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+        "format-alt": "{:%Y-%m-%d}"
+    },
+    "cpu": {
+        "format": "{usage:2}% ",
+        "tooltip": false
+    },
+    "disk": {
+      "format": "{percentage_free:2}% "
+    },
+    "memory": {
+        "format": "{}% "
+    },
+    "temperature": {
+        //"thermal-zone": 2,
+        "hwmon-path": "/sys/bus/platform/devices/coretemp.0/hwmon/hwmon6/temp1_input",
+        "critical-threshold": 65,
+        // "format-critical": "{temperatureC}°C {icon}",
+        "format": "{temperatureC}°C {icon}",
+        "format-icons": ["", "", ""]
+    },
+    "backlight": {
+        // "device": "acpi_video1",
+        "format": "{percent}% {icon}",
+        "format-icons": ["", ""]
+    },
+    "battery": {
+        "states": {
+            // "good": 95,
+            "warning": 30,
+            "critical": 10
+        },
+        "format": "{capacity:3}% {icon}",
+        "format-charging": "{capacity:3}% ",
+        "format-plugged": "{capacity:3}% ",
+        "format-alt": "{time} {icon}",
+        // "format-good": "", // An empty format will hide the module
+        // "format-full": "",
+        "format-icons": ["", "", "", "", ""]
+    },
+    "network": {
+        // "interface": "wlp2*", // (Optional) To force the use of this interface
+        "format-wifi": "{essid} ({signalStrength}%) ",
+        "format-ethernet": "{ifname}: {ipaddr}/{cidr} ",
+        "format-linked": "{ifname} (No IP) ",
+        "format-disconnected": "Disconnected ⚠",
+        "format-alt": "{ifname}: {ipaddr}/{cidr}"
+    },
+    "pulseaudio": {
+        // "scroll-step": 1, // %, can be a float
+        "format": "{volume:3}% {icon} {format_source}",
+        "format-bluetooth": "{volume:3}% {icon} {format_source}",
+        "format-bluetooth-muted": " {icon} {format_source}",
+        "format-muted": " {format_source}",
+        "format-source": "{volume:3}% ",
+        "format-source-muted": "",
+        "format-icons": {
+            "headphone": "",
+            "hands-free": "",
+            "headset": "",
+            "phone": "",
+            "portable": "",
+            "car": "",
+            "default": ["", "", ""]
+        },
+        "on-click": "pavucontrol"
+    },
+    "wlr/taskbar": {
+      "all-outputs": true,
+      "icon-size": 16,
+      "on-click": "activate"
+    },
+    "custom/kernel-modules-match": {
+      "exec": "$HOME/.config/waybar/check-kernel-modules-match.sh --json",
+      "format": "{icon}",
+      "format-icons": ["",""],
+      "interval": 15,
+      "return-type": "json"
+    },
+    "custom/systemd-failed-units": {
+      "exec": "/home/malonso/.config/waybar/check-systemd-failed-units.sh --json",
+      "format": "{icon}",
+      "format-icons": ["",""],
+      "interval": 15,
+      "return-type": "json"
+    }
+}
+

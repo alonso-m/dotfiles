@@ -1,0 +1,96 @@
+/* CSS reset */
+
+#workspaces button {
+  border: none;
+  color: grey;
+  padding: 0;
+  transition: none;
+}
+#workspaces button:hover {
+  background: inherit;
+  box-shadow: inherit;
+  color: inherit;
+  text-shadow: inherit;
+}
+
+/* my styles */
+
+* {
+  border-radius: 0;
+}
+
+#waybar {
+  background: rgba(0, 0, 0, 0.5);
+  color: rgba(95%, 95%, 95%, 0.95);
+  /* `otf-font-awesome` is required to be installed for icons */
+  font-family: "Fura Code", "Cascadia Code", monospace;
+  font-size: 14px;
+}
+
+#workspaces button {
+  padding: 0 0.5em;
+}
+
+#idle_inhibitor.activated,
+#workspaces button.focused {
+  animation: 3s linear infinite alternate-reverse blink-background;
+  background: rgba(95%, 95%, 95%, 0.95);
+  font-weight: bolder;
+}
+
+#backlight,
+#battery,
+#clock,
+#cpu,
+#disk,
+#idle_inhibitor,
+#memory,
+#mode,
+#mpd,
+#network,
+#pulseaudio,
+#taskbar,
+#temperature,
+#tray,
+#window,
+#custom-kernel-modules-match,
+#custom-systemd-failed-units,
+#custom-wfrecorder {
+  padding: 0 0.5em;
+  margin: 0 0.5em;
+}
+
+#workspaces button.urgent,
+#battery.critical:not(.charging),
+#custom-kernel-modules-match.critical,
+#temperature.critical {
+  animation: 2s linear infinite alternate-reverse blink-background;
+  background: red;
+}
+
+#custom-systemd-failed-units.warning {
+  animation: 2s linear infinite alternate-reverse blink-background;
+  background: yellow;
+  color: black;
+}
+
+#custom-wfrecorder.recording {
+  animation: 2s linear infinite alternate-reverse blink-background;
+  background: white;
+  color: red;
+}
+
+#network.disconnected,
+#pulseaudio.muted {
+  color: rgba(95%, 95%, 95%, 0.5);
+}
+
+@keyframes blink-background {
+  from {
+    background: rgba(0, 0, 0, 0.5);
+  }
+  to {
+    color: black;
+  }
+}
+
