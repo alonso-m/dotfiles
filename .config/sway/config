@@ -12,7 +12,7 @@ set $mod Mod4
 #set $lock ~/.local/bin/scripts/lock.sh
 set $wallpaper /home/malonso/Pictures/background.png
 set $wallpaper-lock /home/malonso/Pictures/lock.jpg
-set $lock swaylock -e -i $wallpaper-lock
+set $lock swaylock -i $wallpaper
 
 # Home row direction keys, like vim
 set $left h
@@ -37,7 +37,7 @@ exec wl-paste -t text --watch clipman store
 bindsym $mod+y exec clipman pick -t wofi
 
 exec /usr/bin/blueman-applet
-exec /usr/bin/gammastep-indicator
+#exec /usr/bin/gammastep-indicator
 exec /usr/bin/nm-applet --indicator
 exec poweralertd
 
@@ -128,16 +128,15 @@ workspace 9 output DP-1
 workspace 10 output eDP-1
 
 exec XDG_CURRENT_DESKTOP=gnome zoom 
-exec firefox-developer-edition
+exec slack
 
 for_window [instance="spotify"] move container to workspace 5
-for_window [class="jetbrains-idea"] move container to workspace 4
-for_window [instance="zoom"] move container to workspace 6, floating enable
+#for_window [class="jetbrains-idea"] move container to workspace 4
+for_window [instance="zoom"] floating enable
 for_window [instance="discord"] move container to workspace 5
 for_window [instance="slack"] move container to workspace 10
 for_window [app_id="nm-openconnect-auth-dialog"] floating enable
 for_window [app_id="pavucontrol"] floating enable
-for_window [app_id="firefoxdeveloperedition"] move container to workspace 1
 
 # Example configuration:
 #
@@ -149,10 +148,10 @@ for_window [app_id="firefoxdeveloperedition"] move container to workspace 1
 #
 # Example configuration:
 #
- exec swayidle -w \
-          timeout 300 'swaylock -f -c 000000' \
-          timeout 600 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"' \
-          before-sleep 'swaylock -f -c 000000'
+# exec swayidle -w \
+#          timeout 300 $lock '-f -c 000000' \
+#          timeout 600 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"' \
+#          before-sleep $lock '-f -c 000000'
 #
 # This will lock your screen after 300 seconds of inactivity, then turn off
 # your displays after another 300 seconds, and turn your screens back on when
