@@ -24,7 +24,7 @@ source $ZSH/oh-my-zsh.sh
 
 
 export EDITOR='vim'
-export TERM='xterm-256color'
+#export TERM='xterm-256color'
 zstyle ':completion:*' rehash true
 
 # ssh
@@ -35,3 +35,5 @@ alias config="/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME"
 if [[ -f "${HOME}/.config/cloudtoken/bashrc_additions" ]]; then
     source "${HOME}/.config/cloudtoken/bashrc_additions"
 fi
+
+alias vim="nvim"
