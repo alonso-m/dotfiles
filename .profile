@@ -10,3 +10,4 @@ export ECORE_EVAS_ENGINE=wayland-egl
 export ELM_ENGINE=wayland_egl
 export SDL_VIDEODRIVER=wayland
 export NO_AT_BRIDGE=1
+export JAVA_HOME=/usr/lib/jvm/default
