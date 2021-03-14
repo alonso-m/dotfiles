@@ -23,8 +23,8 @@ zstyle :omz:plugins:ssh-agent identities id_rsa
 source $ZSH/oh-my-zsh.sh
 
 
-export EDITOR='vim'
-#export TERM='xterm-256color'
+export EDITOR='nvim'
+export TERM='xterm-256color'
 zstyle ':completion:*' rehash true
 
 # ssh
@@ -37,3 +37,5 @@ if [[ -f "${HOME}/.config/cloudtoken/bashrc_additions" ]]; then
 fi
 
 alias vim="nvim"
+
+source /usr/share/fzf/key-bindings.zsh
