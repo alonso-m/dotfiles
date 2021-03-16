@@ -60,6 +60,7 @@ set title       " change the terminal title
 set lazyredraw  " do not redraw when executing macros
 set report=0    " always report changes
 set cursorline  " highlight current line
+set wrap        " wrap lines around windows size
 
 set nolist                            " hide unprintable characters
 if has("multi_byte")                  " if multi_byte is available,
@@ -353,7 +354,7 @@ endif
 
 
 " NERDTreeToggle
-map <C-n> :NERDTreeToggle<CR>
+map <C-n> :NERDTreeToggle %<CR>
 let g:NERDTreeWinSize=50
 
 " used patched fonts for airline arrows/triangles
