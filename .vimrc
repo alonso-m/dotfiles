@@ -205,7 +205,7 @@ noremap gI `.
 " -- editing -------------------------------------------------------------------
 
 set showmode      " always show the current editing mode
-set nowrap        " don't wrap lines
+" set nowrap        " don't wrap lines
 set linebreak     " yet if enabled break at word boundaries
 
 if has("multi_byte")  " if multi_byte is available,
