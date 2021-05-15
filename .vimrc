@@ -3,15 +3,21 @@ set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
 Plugin 'vim-airline/vim-airline'
-Plugin 'vim-airline/vim-airline-themes'
+" Plugin 'vim-airline/vim-airline-themes'
 Plugin 'tpope/vim-fugitive'
-Plugin 'christoomey/vim-tmux-navigator'
+Plugin 'christoomey/vim-tmux-navigator'                                                                                       
+Plugin 'arcticicestudio/nord-vim'
 " Plugin 'severin-lemaignan/vim-minimap'
 " Plugin 'benmills/vimux'
 Plugin 'scrooloose/nerdtree'
 " Plugin 'andreshazard/vim-logreview'
+Plugin 'mtdl9/vim-log-highlighting',
+Plugin 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --bin' }
+Plugin 'junegunn/fzf.vim'
 
 call vundle#end()            
+
+colorscheme nord
 
 set encoding=utf-8  " set vim encoding to UTF-8
 set nocompatible    " the future is now, use vim defaults instead of vi ones
@@ -114,7 +120,9 @@ inoremap <silent> <leader>w <ESC>:w!<CR>
 nnoremap <silent> <leader>W :wa!<CR>
 inoremap <silent> <leader>W <ESC>:wa!<CR>
 
-
+" fzf
+noremap <silent> <C-p> :Files<CR>
+noremap <silent> <M-p> :Buffers<CR>
 " -- navigation ----------------------------------------------------------------
 
 " scroll slightly faster
@@ -363,4 +371,4 @@ let g:airline_powerline_fonts=1
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#show_buffers = 1
 let g:airline#extensions#tabline#show_close_button = 0
-let g:airline_theme='luna'
+" let g:airline_theme='luna'
