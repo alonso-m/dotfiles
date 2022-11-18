@@ -17,6 +17,8 @@ Plugin 'junegunn/fzf.vim'
 
 call vundle#end()            
 
+map <Space> <Leader>
+
 colorscheme nord
 
 set encoding=utf-8  " set vim encoding to UTF-8
@@ -194,8 +196,8 @@ inoremap <silent> <leader>q <ESC>:q<CR>
 nnoremap <silent> <leader>t :tabnew<CR>
 
 " next/previous buffer navigation
-" nnoremap <silent> <C-b> :bnext<CR>
-" nnoremap <silent> <S-b> :bprev<CR>
+nnoremap <silent> <C-b> :bnext<CR>
+nnoremap <silent> <S-b> :bprev<CR>
 
 set whichwrap=b,s,<,> " allow cursor left/right key to wrap to the
                       " previous/next line
@@ -261,7 +263,7 @@ vnoremap <silent> p "_dP
 vnoremap <silent> P "_dp
 
 " always share the OS clipboard
-set clipboard=unnamedplus
+" set clipboard=unnamedplus
 
 " reselect last selection after indent / un-indent in visual and select modes
 vnoremap < <gv
