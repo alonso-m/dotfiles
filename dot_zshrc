@@ -1,5 +1,4 @@
 ZSH_TMUX_AUTOSTART=true
-
 DEFAULT_USER="malonso"
 
 export ZSH=~/.oh-my-zsh
@@ -54,7 +53,6 @@ alias vim="nvim"
 alias grep="rg"
 alias find="fd"
 alias man="batman"
-# alias zoomg="XDG_CURRENT_DESKTOP=gnome zoom"
 alias config="/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME"
 
 # unix
@@ -94,3 +92,4 @@ source /usr/share/zsh-theme-powerlevel10k/powerlevel10k.zsh-theme
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+ZLE_RPROMPT_INDENT=0
