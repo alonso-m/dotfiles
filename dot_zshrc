@@ -1,9 +1,8 @@
-DEFAULT_USER="malonso"
 ZSH_TMUX_AUTOSTART=true
 
-export ZSH=~/.oh-my-zsh
+DEFAULT_USER="malonso"
 
-ZSH_THEME="agnoster"
+export ZSH=~/.oh-my-zsh
 
 plugins=(
   git
@@ -91,3 +90,7 @@ fi
 unset __conda_setup
 # <<< conda initialize <<<
 
+source /usr/share/zsh-theme-powerlevel10k/powerlevel10k.zsh-theme
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
